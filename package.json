@@ -1,0 +1,23 @@
+{
+  "name": "activities-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start":"nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Enzo91080/activities-node.git"
+  },
+  "author": "Enzo AIME",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Enzo91080/activities-node/issues"
+  },
+  "homepage": "https://github.com/Enzo91080/activities-node#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
