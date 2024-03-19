@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 exports.signup = async (req, res) => {
   try {
     const userData = req.body;
+    userData.password = await bcrypt.hash(userData.password, 10);
     const user = await User.create(userData);
     res.status(201).send(user);
   } catch (error) {
