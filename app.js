@@ -1,7 +1,6 @@
 const express = require('express')
 const db = require("./app/models/index.js");
 const app = express()
-module.exports = app;
 
 db.sequelize
 .authenticate()
@@ -11,4 +10,6 @@ db.sequelize
 
 const router = require('./app/routes/index.js')
 app.use("/api", router);
+
+module.exports = app;
 
