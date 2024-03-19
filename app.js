@@ -7,6 +7,7 @@ db.sequelize
 .then(() => console.log("Database connected ..."))
 .catch((err) => console.log(err));
 
+app.use(express.json());
 
 const router = require('./app/routes/index.js')
 app.use("/api", router);
