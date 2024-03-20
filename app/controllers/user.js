@@ -1,5 +1,5 @@
-const { User } = require('../models');
-const bcrypt = require('bcrypt');
+const { User } = require("../models");
+const bcrypt = require("bcrypt");
 
 exports.signup = async (req, res) => {
   try {
@@ -7,12 +7,15 @@ exports.signup = async (req, res) => {
     userData.password = await bcrypt.hash(userData.password, 10);
     const user = await User.create(userData);
     res.status(201).send(user);
-  } catch (error) {
-    res.status(500).send(error.message);
+  } catch (err) {
+    res.status(500).json({
+      message:
+        err.message ||
+        "Something wrong happened with your request to create a new user.",
+    });
   }
 };
 
 exports.login = (req, res) => {
   res.send("You are login");
 };
-
