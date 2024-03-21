@@ -13,6 +13,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+
         {
           name: "Pin",
           type: "softwood",
@@ -27,6 +28,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+
         {
           name: "Érable",
           type: "noble and hardwoods",

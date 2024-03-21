@@ -52,7 +52,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Wood",
-    }
   );
   return Wood;
 };

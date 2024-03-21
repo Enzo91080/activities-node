@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING, 
+        type: Sequelize.STRING,
         allowNull: false,
       },
       type: {
@@ -22,10 +22,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM,
         values: ["tender", "medium-hard", "hard"],
-      },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: true
       },
       createdAt: {
         allowNull: false,
