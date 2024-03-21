@@ -8,10 +8,16 @@ exports.signup = async (req, res) => {
     const user = await User.create({ ...req.body, password: passwordHash });
     res.status(201).send(user);
   } catch (err) {
+    // If a user with the same email already exists, return a 409 status and a message
+    if (err.name === "SequelizeUniqueConstraintError") {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    // If any other error occurs, return a 500 status and a message
     res.status(500).json({
       message:
-        err.message ||
-        "Something wrong happened with your request to create a new user.",
+      err.message ||
+      "Something wrong happened with your request to create a new user.",
     });
   }
 };
