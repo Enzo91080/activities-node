@@ -47,6 +47,8 @@ module.exports = {
           name: "Itauba",
           type: "exotic wood",
           hardness: "hard",
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           name: "Douglas",
