@@ -14,12 +14,14 @@ module.exports = {
         allowNull: false,
       },
       type: {
+        allowNull: false,
         type: Sequelize.ENUM,
-        values: ['softwood', 'exotic wood', 'noble and hardwoods']
+        values: ["softwood", "exotic wood", "noble and hardwoods"],
       },
       hardness: {
+        allowNull: false,
         type: Sequelize.ENUM,
-        values: ['tender', 'medium-hard', 'hard']
+        values: ["tender", "medium-hard", "hard"],
       },
       image: {
         type: Sequelize.STRING,
