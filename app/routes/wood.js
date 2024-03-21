@@ -1,11 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express();
-const ctrlWood = require('../controllers/wood');
-const auth = require("../middleware/auth.js")
+const woodCtrl = require("../controllers/wood.js");
+const auth = require("../middlewares/auth.js");
+const multer = require("../middlewares/multer.js");
 
-router.get("/", auth, ctrlWood.listWood);
-router.get("/:hardness", auth, ctrlWood.readByHardness);
+router.get("/", auth, woodCtrl.readAll);
+router.get("/:hardness", auth, woodCtrl.readByHardness);
 
+router.post("/", auth, multer, woodCtrl.create);
 
+router.put("/:id", auth, multer, woodCtrl.update);
+router.delete("/:id", auth, multer, woodCtrl.delete);
 
 module.exports = router;
