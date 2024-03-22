@@ -1,0 +1,517 @@
+openapi: 3.1.0
+info:
+  title: API des essences de bois
+  description: Une API pour gérer les données relatives aux essences de bois.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api-docs/
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Registration
+      description: Create an account on API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: "Jane"
+                lastName:
+                  type: string
+                  example: "Doe"
+                email:
+                  type: string
+                  example: "jane@doe.com"
+                password:
+                  type: string
+                  example: "azerty"
+      responses:
+        "201":
+          description: Register successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 5
+                  firstName:
+                    type: string
+                    example: Jane
+                  lastName:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    format: email
+                    example: jane@doe.com
+                  password:
+                    type: string
+                    example: "$2b$10$0W2.Zf4w6q3CVeptjetyr.BMAcUONS3cV0sc2uVG0r616fG/XZG7K"
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2023-04-25T13:35:14.519Z"
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: "2023-04-25T"
+        "500":
+          description: Missing some field
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "notNull Violation: firstName is required"
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      description: Log in to the application.
+      security:
+        - Bearer Token: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User logged in successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzExMTAzMDIyLCJleHAiOjE3MTIxMDMwMjJ9.X8GCzhY55MWcQqK3cRf4wHhmu5AwI-asd6rGQ8k7rf0"
+                  user:
+                    $ref: "#/components/schemas/User"
+        "500":
+          description: An error occurred during login.
+
+  /wood/readAll:
+    get:
+      tags:
+        - Wood
+      summary: Read All Woods
+      description: Retrieve all woods.
+      security:
+        - Bearer Token: []
+      responses:
+        "200":
+          description: List of all woods.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  woods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: "Épicéa"
+                        type:
+                          type: string
+                          example: "softwood"
+                        hardness:
+                          type: string
+                          example: "tender"
+                        image:
+                          type: string
+                          nullable: true
+                          example: null
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2024-03-21T09:22:46.000Z"
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: "2024-03-21T09:22:46.000Z"
+                        links:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              rel:
+                                type: string
+                                example: "getWoodById"
+                              method:
+                                type: string
+                                example: "GET"
+                              href:
+                                type: string
+                                example: "/wood/1"
+                  globalLinks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                          example: "all"
+                        method:
+                          type: string
+                          example: "get"
+                        href:
+                          type: string
+                          example: "/wood"
+        "500":
+          description: An error occurred while retrieving all woods.
+  /wood/{hardness}:
+    get:
+      tags:
+        - Wood
+      summary: Read Woods by Hardness
+      description: Retrieve woods with a specific hardness.
+      security:
+        - Bearer Token: []
+      parameters:
+        - in: path
+          name: hardness
+          description: Hardness of the wood to retrieve
+          required: true
+          type: string
+      responses:
+        "200":
+          description: List of woods with the specified hardness.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  woods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: "Épicéa"
+                        type:
+                          type: string
+                          example: "softwood"
+                        hardness:
+                          type: string
+                          example: "tender"
+                        image:
+                          type: string
+                          nullable: true
+                          example: null
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2024-03-21T09:22:46.000Z"
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: "2024-03-21T09:22:46.000Z"
+                        links:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              rel:
+                                type: string
+                                example: "getWoodById"
+                              method:
+                                type: string
+                                example: "GET"
+                              href:
+                                type: string
+                                example: "/wood/1"
+                  links:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                          example: "all"
+                        method:
+                          type: string
+                          example: "get"
+                        href:
+                          type: string
+                          example: "/wood"
+        "500":
+          description: An error occurred while retrieving woods by hardness.
+  /wood/{id}:
+    post:
+      tags:
+        - Wood
+      summary: Create Wood
+      description: Create a new wood entry.
+      security:
+        - Bearer Token: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: datas
+          description: Wood data
+          required: true
+          type: string
+        - in: formData
+          name: image
+          description: Image of the wood
+          type: file
+      responses:
+        "201":
+          description: Wood created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wood:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 15
+                      name:
+                        type: string
+                        example: "Chêne"
+                      type:
+                        type: string
+                        example: "noble and hardwoods"
+                      hardness:
+                        type: string
+                        example: "hard"
+                      image:
+                        type: string
+                        example: "http://localhost:5000/uploads/What-is-Jamstack_1711104145089.jpg"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2024-03-22T10:42:25.094Z"
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2024-03-22T10:42:25.094Z"
+                      links:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rel:
+                              type: string
+                              example: "getWoodById"
+                            method:
+                              type: string
+                              example: "GET"
+                            href:
+                              type: string
+                              example: "/wood/15"
+                  globalLinks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                          example: "all"
+                        method:
+                          type: string
+                          example: "get"
+                        href:
+                          type: string
+                          example: "/wood"
+        "500":
+          description: An error occurred while creating a wood entry.
+    put:
+      tags:
+        - Wood
+      summary: Update Wood
+      description: Update an existing wood entry.
+      security:
+        - Bearer Token: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: path
+          name: id
+          description: ID of the wood to update
+          required: true
+          type: integer
+        - in: formData
+          name: datas
+          description: Updated wood data
+          required: true
+          type: string
+        - in: formData
+          name: image
+          description: Updated image of the wood
+          type: file
+      responses:
+        "200":
+          description: Wood updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wood:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 6
+                      name:
+                        type: string
+                        example: "Chêne mis à jour"
+                      type:
+                        type: string
+                        example: "noble and hardwoods"
+                      hardness:
+                        type: string
+                        example: "hard"
+                      image:
+                        type: string
+                        example: "http://localhost:5000/uploads/What-is-Jamstack_1711104254572.jpg"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2024-03-22T10:44:14.611Z"
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2024-03-21T09:22:46.000Z"
+                      links:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rel:
+                              type: string
+                              example: "getWoodById"
+                            method:
+                              type: string
+                              example: "GET"
+                            href:
+                              type: string
+                              example: "/wood/6"
+                  globalLinks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                          example: "all"
+                        method:
+                          type: string
+                          example: "get"
+                        href:
+                          type: string
+                          example: "/wood"
+        "500":
+          description: An error occurred while updating a wood entry.
+    delete:
+      tags:
+        - Wood
+      summary: Delete Wood
+      description: Delete an existing wood entry.
+      security:
+        - Bearer Token: []
+      parameters:
+        - in: path
+          name: id
+          description: ID of the wood to delete
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Wood deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Wood with id {id} has been deleted."
+        "500":
+          description: An error occurred while deleting a wood entry.
+securityDefinitions:
+  Bearer Token:
+    type: apiKey
+    name: Authorization
+    in: header
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        email:
+          type: string
+          format: email
+          example: jane@doe.com
+        password:
+          type: string
+          example: "$2b$10$0W2.Zf4w6q3CVeptjetyr.BMAcUONS3cV0sc2uVG0r616fG/XZG7K"
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Doe
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-04-25T13:35:14.519Z"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-04-25T"
+
+    Wood:
+      type: object
+      properties:
+        id: integer
+        example: 1
+        name:
+          type: string
+          example: "Chêne"
+        type:
+          type: string
+          example: "softwood"
+        hardness:
+          type: string
+          example: "tender"
+        image:
+          type: string
+          example: "chene.jpg"
